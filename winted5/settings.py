@@ -9,8 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = my_settings.SECRET['secret']
-
+SECRET_KEY = my_settings.SECRET
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -68,7 +67,6 @@ WSGI_APPLICATION = 'winted5.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = my_settings.DATABASES
-
 
 
 # Password validation
@@ -136,3 +134,33 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 	
 )
+LOGGING = {
+    'disable_existing_loggers': False,
+    'version': 1,
+    'formatters': {
+         'verbose': {
+            'format': '{asctime} {levelname} {message}',
+            'style': '{'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class'     : 'logging.StreamHandler',
+            'formatter' : 'verbose',
+            'level'     : 'DEBUG',
+        },
+        'file': {
+            'level'     : 'DEBUG',
+            'class'     : 'logging.FileHandler',
+            'formatter' : 'verbose',
+            'filename'  : 'debug.log',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers' : ['console','file'],
+            'level'    : 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
